@@ -45,15 +45,14 @@ export default function App() {
     // The category field comes as an object with a property called "title". You just need to get the title value and set it under the key "category".
     // So the server response should be slighly transformed in this function (hint: map function) to flatten out each menu item in the array,
     try {
-      const response = await fetch(
-        API_URL
-      );
+      const response = await fetch(API_URL);
       const json = await response.json();
-      return json.menu.map(item => {
-        let modifiedItem = item;
-        modifiedItem.category = item.category.title;
-        return modifiedItem;
-      });
+      return data.menu.map(({ id, title, price, category }) => ({
+        "category": category.title,
+        "id": id,
+        "price": price,
+        "title": title,
+      }));
     } catch (error) {
       console.error(error);
       return [];
