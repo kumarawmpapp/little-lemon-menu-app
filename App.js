@@ -47,7 +47,7 @@ export default function App() {
     try {
       const response = await fetch(API_URL);
       const json = await response.json();
-      return data.menu.map(({ id, title, price, category }) => ({
+      return json.menu.map(({ id, title, price, category }) => ({
         "category": category.title,
         "id": id,
         "price": price,
