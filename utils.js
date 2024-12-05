@@ -44,21 +44,26 @@ export function getSectionListData(data) {
   // The title of each section should be the category.
   // The data property should contain an array of menu items. 
   // Each item has the following properties: "id", "title" and "price"
-  const groupedCategory = Object.entries(
-    // What you have done
-    data.reduce((acc, { id, title, price }) => {
+  
+  const categorizedData = data.reduce(
+    (acc, { category, uuid, title, price }) => {
       if (!acc[category]) {
         acc[category] = [];
       }
-      
-      acc[category].push({ id, title, price });
-  
+
+      acc[category].push({ id: uuid, title, price });
+
       return acc;
-    }, {})
-  ).map(([title, data]) => ({ title, data }));
-  
-  console.log('grouped ' + groupedCategory);
-  return SECTION_LIST_MOCK_DATA;
+    },
+    {}
+  );
+
+  const refinedData = Object.entries(categorizedData).map(([title, data]) => ({
+    title,
+    data,
+  }));
+
+  return refinedData;
 }
 
 export function useUpdateEffect(effect, dependencies = []) {
