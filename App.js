@@ -143,7 +143,7 @@ export default function App() {
         sections={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Item title={item.title} price={item.price} />
+          <Item key={item.id} title={item.title} price={item.price} />
         )}
         renderSectionHeader={({ section: { title } }) => (
           <Text style={styles.header}>{title}</Text>
