@@ -65,6 +65,20 @@ export function saveMenuItems(menuItems) {
  */
 export async function filterByQueryAndCategories(query, activeCategories) {
   return new Promise((resolve, reject) => {
-    resolve(SECTION_LIST_MOCK_DATA);
+    db.transaction((tx) => {
+      let sql = 'select * from menuitems where title like ?';
+      let params = ['%' + query + '%'];
+
+      if (activeCategories.length > 0) {
+        sql += ' and category in (' + new Array(activeCategories.length).fill('?').join(',') + ')';
+        params = params.concat(activeCategories);
+      }
+
+      tx.executeSql(sql, params, (_, { rows }) => {
+        resolve(rows._array);
+      }, (error) => {
+        reject(error);
+      });
+    });
   });
 }
